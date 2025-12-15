@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sora 2 Instant Watermarker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">MVP · Canvas + MediaRecorder</p>
+        <h1>Sora 2 Instant Watermarker</h1>
+        <p class="sub">本地加水印并导出，无需上传后端。处理时请保持前台、勿锁屏。</p>
+      </div>
+      <div class="actions">
+        <label class="btn primary">
+          <input id="file-input" type="file" accept="video/*" hidden>
+          选择视频
+        </label>
+        <button id="generate-btn" class="btn" disabled>生成</button>
+        <button id="cancel-btn" class="btn ghost" disabled>取消</button>
+      </div>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <div class="card-header">
+          <h2>预览区</h2>
+          <span class="badge" id="format-badge">待上传</span>
+        </div>
+        <div class="preview">
+          <video id="preview" playsinline></video>
+          <div id="watermark-layer" class="watermark-layer"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>进度与提示</h2>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+          </div>
+          <div class="progress-meta">
+            <span id="progress-label">等待中</span>
+            <span id="duration-label">-- / --</span>
+          </div>
+        </div>
+        <div id="status" class="status">请先选择视频。</div>
+        <ul class="notes">
+          <li>导出格式优先 MP4（H.264），失败回退 WebM；WebM 在微信可能无法预览。</li>
+          <li>当前录制使用 1x 播放，保持原速与原音高；如需加速请自行调整播放速率（成片会加速变调）。</li>
+          <li>水印路径占位：<code>/assets/sora-watermark.png</code>（需同源或带 CORS）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <h2>导出结果</h2>
+      </div>
+      <div id="result" class="result">
+        <p>尚未生成文件。</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
