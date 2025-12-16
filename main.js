@@ -11,11 +11,12 @@ const statusEl = document.getElementById("status");
 const resultEl = document.getElementById("result");
 
 const WATERMARK_SRC = "/assets/sora-watermark.png"; // 占位路径，需同源或带 CORS
-const WATERMARK_WIDTH_RATIO = 0.2; // 占帧宽约 20%
+const WATERMARK_SIZE_RATIO = 0.25; // 占较短边约 25%（随画面自适应）
 const WATERMARK_REGION_RATIO = 0.8; // 允许落点的中心区域宽高比
 const MAX_DIMENSION = 1080;
 const MAX_DURATION_SEC = 180; // 3 分钟
 const PLAYBACK_RATE = 1.0; // 保持原速与原音高
+const SHOW_TIMECODE = false; // 导出时间码
 
 const state = {
   file: null,
@@ -122,6 +123,31 @@ function formatTime(sec) {
   return `${m}:${s}`;
 }
 
+function formatTimecode(sec) {
+  if (!Number.isFinite(sec)) return "00:00:00.000";
+  const h = Math.floor(sec / 3600)
+    .toString()
+    .padStart(2, "0");
+  const m = Math.floor((sec % 3600) / 60)
+    .toString()
+    .padStart(2, "0");
+  const s = Math.floor(sec % 60)
+    .toString()
+    .padStart(2, "0");
+  const ms = Math.floor((sec % 1) * 1000)
+    .toString()
+    .padStart(3, "0");
+  return `${h}:${m}:${s}.${ms}`;
+}
+
+function buildFileTimestamp() {
+  const d = new Date();
+  const pad = (n) => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}-${pad(
+    d.getHours()
+  )}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+}
+
 function updateProgress() {
   if (!state.file || !preview.duration) return;
   const ratio = preview.currentTime / preview.duration;
@@ -150,16 +176,16 @@ function scheduleWatermarkMove() {
   if (!preview.videoWidth || !preview.videoHeight) return;
   const w = preview.videoWidth;
   const h = preview.videoHeight;
-  const targetWidth = w * WATERMARK_WIDTH_RATIO;
-  const maxRegionW = w * WATERMARK_REGION_RATIO - targetWidth;
-  const maxRegionH = h * WATERMARK_REGION_RATIO - targetWidth;
+  const baseSize = Math.min(w, h) * WATERMARK_SIZE_RATIO;
+  const maxRegionW = w * WATERMARK_REGION_RATIO - baseSize;
+  const maxRegionH = h * WATERMARK_REGION_RATIO - baseSize;
   const offsetX = (w - w * WATERMARK_REGION_RATIO) / 2;
   const offsetY = (h - h * WATERMARK_REGION_RATIO) / 2;
   const x = offsetX + Math.random() * maxRegionW;
   const y = offsetY + Math.random() * maxRegionH;
   const scale = 0.9 + Math.random() * 0.2;
   const rotation = (Math.random() - 0.5) * 0.12; // 小角度摆动
-  state.wmState = { x, y, w: targetWidth * scale, h: targetWidth * scale, rotation };
+  state.wmState = { x, y, w: baseSize * scale, h: baseSize * scale, rotation };
 
   // 更新预览层
   const wmEl = watermarkLayer.querySelector("img");
@@ -197,26 +223,42 @@ async function prepareStreams() {
   state.canvas = canvas;
   state.ctx = ctx;
 
-  await ensureAudioContext();
-  if (!state.audioDest) {
-    state.audioDest = state.audioCtx.createMediaStreamDestination();
-  }
-  if (!state.audioSource) {
-    state.audioSource = state.audioCtx.createMediaElementSource(preview);
-  } else {
+  const canvasStream = canvas.captureStream(30);
+  // 优先使用 video.captureStream 的原音轨，避免 AudioContext 某些设备无声
+  let audioTracks = [];
+  if (preview.captureStream) {
     try {
-      state.audioSource.disconnect();
+      const vStream = preview.captureStream();
+      audioTracks = vStream.getAudioTracks();
     } catch (e) {
-      // ignore
+      console.warn("captureStream audio failed, fallback to AudioContext", e);
     }
   }
-  state.audioSource.connect(state.audioDest);
 
-  const canvasStream = canvas.captureStream(30);
-  const mixed = new MediaStream([
-    ...canvasStream.getVideoTracks(),
-    ...state.audioDest.stream.getAudioTracks()
-  ]);
+  // 如果没有音轨，再用 AudioContext 混音
+  if (audioTracks.length === 0) {
+    await ensureAudioContext();
+    if (!state.audioDest) {
+      state.audioDest = state.audioCtx.createMediaStreamDestination();
+    }
+    if (!state.audioSource) {
+      state.audioSource = state.audioCtx.createMediaElementSource(preview);
+    } else {
+      try {
+        state.audioSource.disconnect();
+      } catch (e) {
+        // ignore
+      }
+    }
+    state.audioSource.connect(state.audioDest);
+    audioTracks = state.audioDest.stream.getAudioTracks();
+  }
+
+  if (audioTracks.length === 0) {
+    setStatus("未检测到音频轨道，将生成静音视频。", "warn");
+  }
+
+  const mixed = new MediaStream([...canvasStream.getVideoTracks(), ...audioTracks]);
   state.stream = mixed;
 }
 
@@ -239,6 +281,23 @@ function drawFrame() {
     state.ctx.font = `${Math.floor(state.canvas.width * 0.05)}px sans-serif`;
     state.ctx.fillText("WATERMARK", state.wmState.x, state.wmState.y + state.wmState.h);
   }
+
+  if (SHOW_TIMECODE) {
+    const tc = formatTimecode(preview.currentTime);
+    const padding = Math.max(8, state.canvas.width * 0.006);
+    const fontSize = Math.max(14, state.canvas.width * 0.02);
+    state.ctx.font = `${fontSize}px "Segoe UI", sans-serif`;
+    const textWidth = state.ctx.measureText(tc).width;
+    const boxW = textWidth + padding * 2;
+    const boxH = fontSize + padding * 2;
+    const x = padding;
+    const y = state.canvas.height - boxH - padding;
+    state.ctx.fillStyle = "rgba(0,0,0,0.5)";
+    state.ctx.fillRect(x, y, boxW, boxH);
+    state.ctx.fillStyle = "#f5f7fa";
+    state.ctx.fillText(tc, x + padding, y + padding + fontSize * 0.8);
+  }
+
   state.raf = requestAnimationFrame(drawFrame);
 }
 
@@ -291,7 +350,7 @@ function handleRecorderStop(mimeType) {
   const url = URL.createObjectURL(blob);
   state.resultUrl = url;
   const ext = mimeType.includes("mp4") ? "mp4" : "webm";
-  const filename = `sora-watermarked.${ext}`;
+  const filename = `sora-watermarked-${buildFileTimestamp()}.${ext}`;
   resultEl.innerHTML = `
     <p>视频已生成！格式：${ext.toUpperCase()}</p>
     <a class="link" download="${filename}" href="${url}">下载 ${filename}</a>
