@@ -1,73 +1,356 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sora 2 Instant Watermarker</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Sora 2 本地视频水印工具 | 一键加水印并导出</title>
+  <meta name="description" content="Sora 2 本地视频水印工具，免上传、免排队，一键为视频添加品牌水印并导出。适合内容创作者、运营团队与品牌营销。">
+  <meta name="keywords" content="Sora 2, 视频水印, 本地加水印, 视频加水印, 免上传, 水印工具, 视频导出">
+  <meta name="author" content="[公司/团队名称]">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://your-domain.com/">
+
+  <meta property="og:title" content="Sora 2 本地视频水印工具 | 一键加水印并导出">
+  <meta property="og:description" content="免上传、免排队，本地完成视频水印与导出。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-domain.com/">
+  <meta property="og:image" content="https://your-domain.com/assets/og-cover.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sora 2 本地视频水印工具">
+  <meta name="twitter:description" content="本地完成视频水印与导出，保护品牌内容。">
+  <meta name="twitter:image" content="https://your-domain.com/assets/og-cover.jpg">
+
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family=newsreader:400,600,700|lxgw-wenkai-lite:400,700&display=swap">
+  <link rel="stylesheet" href="landing.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sora 2 Instant Watermarker",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web",
+    "url": "https://your-domain.com/",
+    "description": "本地视频水印工具，免上传即可为视频添加水印并导出。",
+    "publisher": {
+      "@type": "Organization",
+      "name": "[公司/团队名称]",
+      "url": "https://your-domain.com/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "CNY"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "视频会上传到服务器吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。所有处理在浏览器本地完成，视频不离开你的设备。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持哪些视频格式？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "优先导出 MP4（H.264），不支持时回退为 WebM。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "水印素材需要什么要求？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "建议使用 PNG 透明背景，尺寸与清晰度可随视频分辨率调整。"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <div class="app">
-    <header class="hero">
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <div class="container header-grid">
+      <div class="brand">
+        <span class="brand-mark">S2</span>
+        <div>
+          <p class="brand-name">Sora 2 Watermarker</p>
+          <p class="brand-tag">本地视频水印工具</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#features">功能亮点</a>
+        <a href="#workflow">使用流程</a>
+        <a href="#scenarios">适用场景</a>
+        <a href="#faq">常见问题</a>
+        <a href="#about">关于我们</a>
+        <a href="#links">友情链接</a>
+      </nav>
+      <div class="header-cta">
+        <a class="btn ghost" href="#contact">联系我们</a>
+        <a class="btn primary" href="app.html">立即开始</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero container reveal" style="--delay: 0.05s;">
+      <div class="hero-copy">
+        <p class="eyebrow">无上传 · 本地处理 · 快速导出</p>
+        <h1>Sora 2 本地视频水印工具：一键加水印并导出</h1>
+        <p class="lead">
+          用浏览器本地完成视频水印处理，减少素材泄露风险，适合内容创作者、品牌营销、运营团队。
+          不依赖后端、无需排队，打开就能用。
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="app.html">开始给视频加水印</a>
+          <a class="btn" href="#workflow">查看流程</a>
+        </div>
+        <div class="hero-bullets">
+          <div class="pill">本地加水印</div>
+          <div class="pill">免上传</div>
+          <div class="pill">可离线</div>
+          <div class="pill">支持 MP4 / WebM</div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="visual-mock">
+            <div class="mock-row">
+              <span>视频素材</span>
+              <span class="dot"></span>
+              <span>品牌水印</span>
+              <span class="dot"></span>
+              <span>本地导出</span>
+            </div>
+            <div class="mock-bar"></div>
+          
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <section class="stats container reveal" style="--delay: 0.12s;">
+      <div class="stat-card">
+        <p class="stat-number">[100%]</p>
+        <p class="stat-label">素材不出设备的安全感</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-number">直观进度</p>
+        <p class="stat-label">进度条展示处理进度</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-number">[100+]</p>
+        <p class="stat-label">创作者与团队正在使用</p>
+      </div>
+    </section>
+
+    <section id="features" class="section container reveal" style="--delay: 0.2s;">
+      <div class="section-title">
+        <h2>核心功能亮点</h2>
+        <p>围绕「安全、效率、品牌一致性」打造的本地视频水印方案。</p>
+      </div>
+      <div class="grid features">
+        <article class="feature-card">
+          <h3>本地处理，不上传素材</h3>
+          <p>视频仅在浏览器中处理，避免素材外泄与等待上传。</p>
+        </article>
+        <article class="feature-card">
+          <h3>一键导出主流格式</h3>
+          <p>优先导出 MP4（H.264），失败自动回退 WebM。</p>
+        </article>
+        <article class="feature-card">
+          <h3>品牌水印统一管理</h3>
+          <p>使用透明 PNG 水印，统一品牌出镜效果。</p>
+        </article>
+        <article class="feature-card">
+          <h3>支持长视频处理</h3>
+          <p>基于 Canvas + MediaRecorder，适配长素材场景。</p>
+        </article>
+        <article class="feature-card">
+          <h3>无需安装，打开即用</h3>
+          <p>浏览器即可完成，无需安装客户端。</p>
+        </article>
+        <article class="feature-card">
+          <h3>适配多种分辨率</h3>
+          <p>灵活调整水印尺寸与位置，适配 16:9 / 9:16。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="workflow" class="section container reveal" style="--delay: 0.28s;">
+      <div class="section-title">
+        <h2>3 步完成视频水印</h2>
+        <p>简洁流程，保持素材处理效率。</p>
+      </div>
+      <div class="workflow">
+        <div class="step">
+          <span class="step-num">01</span>
+          <h3>选择视频素材</h3>
+          <p>支持本地视频导入，无需上传。</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <h3>确认水印效果</h3>
+          <p>预览水印位置与大小，确保品牌一致。</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <h3>一键导出成片</h3>
+          <p>导出 MP4 / WebM，直接用于发布。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="scenarios" class="section container reveal" style="--delay: 0.36s;">
+      <div class="section-title">
+        <h2>适用场景</h2>
+        <p>覆盖主流内容生产与品牌营销需求。</p>
+      </div>
+      <div class="grid scenarios">
+        <article class="scenario-card">
+          <h3>短视频矩阵运营</h3>
+          <p>批量加水印，强化账号矩阵一致性。</p>
+        </article>
+        <article class="scenario-card">
+          <h3>品牌素材保护</h3>
+          <p>避免被盗用，确保品牌露出。</p>
+        </article>
+        <article class="scenario-card">
+          <h3>创作者视频发布</h3>
+          <p>快速加水印后分发到多平台。</p>
+        </article>
+        <article class="scenario-card">
+          <h3>内部培训与投放</h3>
+          <p>为培训、投放视频统一标识。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container highlight reveal" style="--delay: 0.44s;">
+      <div class="highlight-card">
+        <div>
+          <h2>为什么选择本地视频水印？</h2>
+          <p>
+            本地处理意味着素材不必上传到云端，降低泄露风险并缩短等待时间。对高频内容生产团队来说，
+            省去上传与排队步骤，就能更快发布。对于品牌方，本地水印还能确保素材在任何环境下都保持统一标识。
+          </p>
+        </div>
+        <div class="highlight-tags">
+          <div class="pill">安全感提升</div>
+          <div class="pill">效率更高</div>
+          <div class="pill">品牌一致</div>
+          <div class="pill">成本可控</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section container reveal" style="--delay: 0.52s;">
+      <div class="section-title">
+        <h2>常见问题</h2>
+        <p>帮助访客快速了解使用细节。</p>
+      </div>
+      <div class="faq">
+        <details open>
+          <summary>视频会上传到服务器吗？</summary>
+          <p>不会。所有处理在浏览器本地完成，视频不离开你的设备。</p>
+        </details>
+        <details>
+          <summary>支持哪些视频格式？</summary>
+          <p>优先导出 MP4（H.264），不支持时回退为 WebM。</p>
+        </details>
+        <details>
+          <summary>水印素材有什么要求？</summary>
+          <p>建议使用透明背景 PNG，并准备 2x 分辨率保证清晰。</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="about" class="section container reveal" style="--delay: 0.6s;">
+      <div class="section-title">
+        <h2>关于我们</h2>
+        <p>齐添Jackey</p>
+      </div>
+      <div class="about">
+        <div>
+          <h3>[齐添Jackey]</h3>
+          <p>
+            我们专注于帮助视频制作新人提供各种便捷工具，
+            目前已帮助 [100+] 个创作者和团队提升内容生产效率。
+          </p>
+          <div class="about-meta">
+            <span>成立时间：[2024]</span>
+            <span>所在地：[上海]</span>
+            <span>联系方式：<a href="inory0721@gmail.com">inory0721@gmail.com</a></span>
+          </div>
+        </div>
+        <div class="about-card">
+          <h4>品牌承诺</h4>
+          <p>坚持「本地处理」「隐私优先」「稳定输出」三大原则。</p>
+          <p>欢迎媒体合作与生态伙伴联系。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="links" class="section container reveal" style="--delay: 0.68s;">
+      <div class="section-title">
+        <h2>友情链接</h2>
+        <p>展示合作伙伴与资源，增强可信度。</p>
+      </div>
+      <div class="links">
+        <a href="https://example.com" target="_blank" rel="noopener">[合作伙伴/工具名称]</a>
+        <a href="https://example.com" target="_blank" rel="noopener">[资源网站/媒体名称]</a>
+        <a href="https://example.com" target="_blank" rel="noopener">[内容社区/创作者平台]</a>
+        <a href="https://example.com" target="_blank" rel="noopener">[品牌/服务名称]</a>
+      </div>
+    </section>
+
+    <section id="contact" class="section container reveal" style="--delay: 0.76s;">
+      <div class="cta">
+        <div>
+          <h2>准备好开始了吗？</h2>
+          <p>现在就用 Sora 2 Watermarker 为视频添加水印，让品牌内容更有辨识度。</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn primary" href="app.html">立即开始</a>
+          <a class="btn" href="mailto:hello@your-domain.com">商务合作</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
       <div>
-        <p class="eyebrow">MVP · Canvas + MediaRecorder</p>
-        <h1>Sora 2 Instant Watermarker</h1>
-        <p class="sub">本地加水印并导出，无需上传后端。处理时请保持前台、勿锁屏。</p>
+        <p class="footer-brand">Sora 2 Watermarker</p>
+        <p class="footer-note">本地视频水印工具 · 让素材更安全</p>
       </div>
-      <div class="actions">
-        <label class="btn primary">
-          <input id="file-input" type="file" accept="video/*" hidden>
-          选择视频
-        </label>
-        <button id="generate-btn" class="btn" disabled>生成</button>
-        <button id="cancel-btn" class="btn ghost" disabled>取消</button>
+      <div class="footer-links">
+        <a href="#features">功能</a>
+        <a href="#workflow">流程</a>
+        <a href="#faq">FAQ</a>
+        <a href="#about">关于</a>
+        <a href="app.html">开始使用</a>
       </div>
-    </header>
-
-    <section class="grid">
-      <div class="card">
-        <div class="card-header">
-          <h2>预览区</h2>
-          <span class="badge" id="format-badge">待上传</span>
-        </div>
-        <div class="preview">
-          <video id="preview" playsinline></video>
-          <div id="watermark-layer" class="watermark-layer"></div>
-        </div>
+      <div class="footer-legal">
+        <p>(c) [年份] [公司/团队名称]. All rights reserved.</p>
+        <p>备案号/隐私政策：[如适用可填写]</p>
       </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h2>进度与提示</h2>
-        </div>
-        <div class="progress-wrap">
-          <div class="progress-bar">
-            <div id="progress-fill" class="progress-fill" style="width:0%"></div>
-          </div>
-          <div class="progress-meta">
-            <span id="progress-label">等待中</span>
-            <span id="duration-label">-- / --</span>
-          </div>
-        </div>
-        <div id="status" class="status">请先选择视频。</div>
-        <ul class="notes">
-          <li>导出格式优先 MP4（H.264），失败回退 WebM；WebM 在微信可能无法预览。</li>
-          <li>当前录制使用 1x 播放，保持原速与原音高；如需加速请自行调整播放速率（成片会加速变调）。</li>
-          <li>水印路径占位：<code>/assets/sora-watermark.png</code>（需同源或带 CORS）。</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-header">
-        <h2>导出结果</h2>
-      </div>
-      <div id="result" class="result">
-        <p>尚未生成文件。</p>
-      </div>
-    </section>
-  </div>
-
-  <script src="main.js"></script>
+    </div>
+  </footer>
 </body>
 </html>

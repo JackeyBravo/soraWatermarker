@@ -1,14 +1,14 @@
 :root {
-  --bg: #0c0f14;
-  --card: #131821;
-  --text: #e8ecf2;
-  --muted: #9aa4b5;
-  --accent: #5ad8ff;
-  --accent-strong: #33b0ff;
-  --danger: #ff6b6b;
-  --border: #1f2733;
-  --shadow: 0 16px 60px rgba(0, 0, 0, 0.3);
-  --radius: 12px;
+  --bg: #f7f1e6;
+  --card: #ffffff;
+  --text: #2f2b27;
+  --muted: #5f5a53;
+  --accent: #e07a5f;
+  --accent-strong: #2f8f83;
+  --danger: #d9534f;
+  --border: rgba(47, 43, 39, 0.12);
+  --shadow: 0 24px 60px rgba(33, 28, 20, 0.12);
+  --radius: 14px;
   --font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
@@ -19,9 +19,9 @@
 body {
   margin: 0;
   font-family: var(--font);
-  background: radial-gradient(circle at 20% 20%, rgba(90, 216, 255, 0.1), transparent 30%),
-              radial-gradient(circle at 80% 0%, rgba(255, 107, 107, 0.08), transparent 35%),
-              var(--bg);
+  background: radial-gradient(circle at 18% 18%, rgba(224, 122, 95, 0.16), transparent 40%),
+              radial-gradient(circle at 82% 8%, rgba(47, 143, 131, 0.18), transparent 38%),
+              linear-gradient(160deg, #f7f1e6, #efe3d4);
   color: var(--text);
   min-height: 100vh;
 }
@@ -66,7 +66,7 @@ h1 {
 
 .btn {
   border: 1px solid var(--border);
-  background: #1b2230;
+  background: #ffffff;
   color: var(--text);
   padding: 10px 14px;
   border-radius: 10px;
@@ -82,7 +82,7 @@ h1 {
 
 .btn.primary {
   background: linear-gradient(120deg, var(--accent) 0%, var(--accent-strong) 100%);
-  color: #0b1018;
+  color: #ffffff;
   border-color: transparent;
 }
 
@@ -118,7 +118,7 @@ h1 {
 }
 
 .badge {
-  background: #1f2733;
+  background: rgba(47, 43, 39, 0.06);
   color: var(--muted);
   padding: 4px 10px;
   border-radius: 20px;
@@ -137,8 +137,8 @@ h1 {
 
 .preview {
   position: relative;
-  background: #0a0d13;
-  border: 1px dashed var(--border);
+  background: #f4eee3;
+  border: 1px dashed rgba(47, 43, 39, 0.2);
   border-radius: var(--radius);
   overflow: hidden;
   min-height: 260px;
@@ -148,7 +148,7 @@ video {
   width: 100%;
   height: 100%;
   display: block;
-  background: #0a0d13;
+  background: #f4eee3;
 }
 
 .watermark-layer {
@@ -171,7 +171,7 @@ video {
 .progress-bar {
   width: 100%;
   height: 10px;
-  background: #111722;
+  background: rgba(47, 43, 39, 0.08);
   border-radius: 999px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -179,7 +179,7 @@ video {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #7ee0ff);
+  background: linear-gradient(90deg, var(--accent), #f2b860);
   width: 0%;
   transition: width 0.1s linear;
 }
@@ -193,7 +193,7 @@ video {
 }
 
 .status {
-  background: #101520;
+  background: rgba(255, 255, 255, 0.7);
   border: 1px solid var(--border);
   padding: 10px;
   border-radius: 10px;
@@ -219,7 +219,7 @@ video {
 }
 
 code {
-  background: #101522;
+  background: rgba(47, 43, 39, 0.08);
   padding: 2px 4px;
   border-radius: 4px;
 }
